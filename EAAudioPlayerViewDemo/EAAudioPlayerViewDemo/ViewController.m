@@ -48,6 +48,8 @@ static NSInteger downloadProgress = 1;
     {
         if(weakSelf.miniAudioPlayerView.downloadProgress <= 0)
         {
+            weakSelf.miniAudioPlayerView.textLabel.text = @"downloading";
+            weakSelf.config.playerStyle |= EAMiniPlayerHideSoundIcon;
             weakSelf.downloadTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(download:) userInfo:nil repeats:YES];
         }
     };
@@ -76,6 +78,8 @@ static NSInteger downloadProgress = 1;
         
         NSLog(@"miniAudioPlayerView download completed!");
         
+        weakSelf.miniAudioPlayerView.textLabel.text = @"38''";
+        weakSelf.config.playerStyle = EAMiniPlayerNormal;
         if([weakSelf.downloadTimer isValid])
         {
             [weakSelf.downloadTimer invalidate];
