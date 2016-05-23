@@ -134,6 +134,13 @@ static NSInteger downloadProgress = 1;
     [super viewWillDisappear:animated];
 }
 
+
+- (IBAction)removeAction:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    [button removeFromSuperview];
+    [self.miniAudioPlayerView2 removeFromSuperview];
+}
+
 - (void)increaseSeconds:(id)userInfo
 {
     NSInteger tempSeconds = seconds ++;
