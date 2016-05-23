@@ -117,6 +117,23 @@ static NSInteger downloadProgress = 1;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if([self.downloadTimer isValid])
+    {
+        [self.downloadTimer invalidate];
+        self.downloadTimer = nil;
+    }
+    
+    if([self.playTimer isValid])
+    {
+        [self.playTimer invalidate];
+        self.playTimer = nil;
+    }
+    
+    [super viewWillDisappear:animated];
+}
+
 - (void)increaseSeconds:(id)userInfo
 {
     NSInteger tempSeconds = seconds ++;
