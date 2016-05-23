@@ -26,10 +26,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0AS-5X-Bh9" customClass="EAMiniAudioPlayerView">
-                                <rect key="frame" x="120" y="158" width="80" height="40"/>
+                                <rect key="frame" x="105" y="158" width="110" height="40"/>
                                 <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="gaP-9R-lvE"/>
+                                    <constraint firstAttribute="width" constant="110" id="gaP-9R-lvE"/>
                                     <constraint firstAttribute="height" constant="40" id="ngP-2v-ACb"/>
                                 </constraints>
                             </view>
@@ -41,14 +41,24 @@
                                     <constraint firstAttribute="height" constant="50" id="fjt-3O-bwX"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpM-Iz-2aH">
+                                <rect key="frame" x="190" y="167" width="21" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="21" id="ald-FF-XOr"/>
+                                    <constraint firstAttribute="height" constant="21" id="nED-Sg-u38"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="icon_delete"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0AS-5X-Bh9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2W9-rn-wli"/>
                             <constraint firstItem="HZw-lh-80o" firstAttribute="top" secondItem="0AS-5X-Bh9" secondAttribute="bottom" constant="20" id="7dE-AI-zab"/>
                             <constraint firstItem="HZw-lh-80o" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Qvc-t2-RuU"/>
+                            <constraint firstItem="hpM-Iz-2aH" firstAttribute="trailing" secondItem="0AS-5X-Bh9" secondAttribute="trailing" constant="-4" id="V0l-iO-fTl"/>
                             <constraint firstItem="Tbc-an-8SC" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="68" id="fBx-5p-7bg"/>
                             <constraint firstItem="0AS-5X-Bh9" firstAttribute="top" secondItem="Tbc-an-8SC" secondAttribute="bottom" constant="20" id="rmk-l7-hsD"/>
+                            <constraint firstItem="hpM-Iz-2aH" firstAttribute="centerY" secondItem="0AS-5X-Bh9" secondAttribute="centerY" id="wld-ZH-G1b"/>
                             <constraint firstItem="Tbc-an-8SC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y2l-9h-kUZ"/>
                         </constraints>
                     </view>
@@ -63,4 +73,7 @@
             <point key="canvasLocation" x="134" y="301"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_delete" width="21" height="21"/>
+    </resources>
 </document>

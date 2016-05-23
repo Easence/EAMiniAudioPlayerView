@@ -101,6 +101,7 @@ static NSInteger downloadProgress = 1;
     };
     
     EAMiniAudioPlayerStyleConfig *config2 = [EAMiniAudioPlayerStyleConfig defaultConfig];
+    config2.contentInsets = UIEdgeInsetsMake(0, 0, 0, 25);
     config2.playerStyle |= EAMiniPlayerHidePlayButton;
     self.miniAudioPlayerView2.styleConfig = config2;
     self.miniAudioPlayerView2.textLabel.text = @"record";
