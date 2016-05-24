@@ -5,6 +5,12 @@ EAMiniAudioPlayerView is a mini Audio player view for ios, it just decide how to
 
 ![image](http://upload-images.jianshu.io/upload_images/1801567-76c4d8ccfcad618a.gif?imageMogr2/auto-orient/strip)
 
+##How to use
+install with cocoapods
+```
+pod install EAMiniAudioPlayerView
+```
+
 ##What can EAMiniAudioPlayerView do
 - It's easy to config what subView can display,another can not.
 
