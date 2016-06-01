@@ -87,6 +87,10 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     
     [self addGestureRecognizer:recognizer];
     
+    [self createPlayButtonIfNeed];
+    [self createSoundIconIfNeed];
+    [self createTextLabelIfNeed];
+    
 }
 
 - (void)setStyleConfig:(EAMiniAudioPlayerStyleConfig *)styleConfig
@@ -155,6 +159,37 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     [self.downloadProgressLayer setPath:path.CGPath];
 }
 
+- (void)createPlayButtonIfNeed
+{
+    if(!self.playButtonContentView)
+    {
+        self.playButtonContentView = [[UIView alloc] init];
+        self.playButtonContentView.backgroundColor = self.styleConfig.playButtonBackgroundColor;
+        self.playButtonContentView.layer.borderColor = self.styleConfig.playButtonBorderColor.CGColor;
+        self.playButtonContentView.layer.borderWidth = .5;
+        self.playButtonContentView.layer.masksToBounds = YES;
+        
+        [self addSubview:self.playButtonContentView];
+        
+        self.playProgressLayer = [CAShapeLayer layer];
+        self.playProgressLayer.backgroundColor = [UIColor clearColor].CGColor;
+        self.playProgressLayer.lineWidth = self.styleConfig.playProgressWidth;
+        self.playProgressLayer.fillColor = [UIColor clearColor].CGColor;
+        self.playProgressLayer.strokeColor = self.styleConfig.playProgressColor.CGColor;
+        
+        [self.playButtonContentView.layer addSublayer:self.playProgressLayer];
+        
+        if(!_playButton)
+        {
+            _playButton = [[UIButton alloc] init];
+            [self.playButtonContentView addSubview:self.playButton];
+        }
+        [_playButton setBackgroundImage:[UIImage imageNamed:@"btn_play"] forState:UIControlStateNormal];
+        [_playButton setBackgroundImage:[UIImage imageNamed:@"btn_stop"] forState:UIControlStateSelected];
+        [_playButton addTarget:self action:@selector(doplayAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
 - (void)layoutPlayButton
 {
     if(self.styleConfig.playerStyle & EAMiniPlayerHidePlayButton)
@@ -167,32 +202,7 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     }
     else
     {
-        if(!self.playButtonContentView)
-        {
-            self.playButtonContentView = [[UIView alloc] init];
-            self.playButtonContentView.backgroundColor = self.styleConfig.playButtonBackgroundColor;
-            self.playButtonContentView.layer.borderColor = self.styleConfig.playButtonBorderColor.CGColor;
-            self.playButtonContentView.layer.borderWidth = .5;
-            self.playButtonContentView.layer.masksToBounds = YES;
-            
-            [self addSubview:self.playButtonContentView];
-            
-            
-            _playButton = [[UIButton alloc] init];
-            [_playButton setBackgroundImage:[UIImage imageNamed:@"btn_play"] forState:UIControlStateNormal];
-            [_playButton setBackgroundImage:[UIImage imageNamed:@"btn_stop"] forState:UIControlStateSelected];
-            [_playButton addTarget:self action:@selector(doplayAction:) forControlEvents:UIControlEventTouchUpInside];
-            
-            
-            self.playProgressLayer = [CAShapeLayer layer];
-            self.playProgressLayer.backgroundColor = [UIColor clearColor].CGColor;
-            self.playProgressLayer.lineWidth = self.styleConfig.playProgressWidth;
-            self.playProgressLayer.fillColor = [UIColor clearColor].CGColor;
-            self.playProgressLayer.strokeColor = self.styleConfig.playProgressColor.CGColor;
-            
-            [self.playButtonContentView.layer addSublayer:self.playProgressLayer];
-            [self.playButtonContentView addSubview:self.playButton];
-        }
+        [self createPlayButtonIfNeed];
         
         
         CGFloat offset = 10;
@@ -232,6 +242,19 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     }
 }
 
+- (void)createSoundIconIfNeed
+{
+    if(!_soundIcon)
+    {
+        _soundIcon = [[UIImageView alloc] init];
+        _soundIcon.contentMode = UIViewContentModeScaleAspectFit;
+        _soundIcon.clipsToBounds = YES;
+        _soundIcon.image = [UIImage imageNamed:@"icon_audio"];
+        [self addSubview:_soundIcon];
+    }
+    
+}
+
 - (void)layoutSoundIcon
 {
     if(self.styleConfig.playerStyle & EAMiniPlayerHideSoundIcon)
@@ -244,14 +267,8 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     }
     else
     {
-        if(!_soundIcon)
-        {
-            _soundIcon = [[UIImageView alloc] init];
-            _soundIcon.contentMode = UIViewContentModeScaleAspectFit;
-            _soundIcon.clipsToBounds = YES;
-            _soundIcon.image = [UIImage imageNamed:@"icon_audio"];
-            [self addSubview:_soundIcon];
-        }
+     
+        [self createSoundIconIfNeed];
         
         CGSize soundIconSize = [UIImage imageNamed:@"icon_audio"].size;
 
@@ -276,6 +293,20 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     }
 }
 
+- (void)createTextLabelIfNeed
+{
+    if(!_textLabel)
+    {
+        _textLabel = [[UILabel alloc] init];
+        _textLabel.textAlignment = NSTextAlignmentRight;
+        _textLabel.font = [UIFont systemFontOfSize:14];
+        _textLabel.textColor = [UIColor colorWithRed:0.6157 green:0.6157 blue:0.6157 alpha:1.0];
+        [self addSubview:_textLabel];
+        
+        [self addObserver:self forKeyPath:@"textLabel.text" options:NSKeyValueObservingOptionNew context:EAAudioPlayerTextLabelContext];
+    }
+}
+
 - (void)layoutTextLabel
 {
     if(self.styleConfig.playerStyle & EAMiniPlayerHideText)
@@ -289,16 +320,7 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     }
     else
     {
-        if(!_textLabel)
-        {
-            _textLabel = [[UILabel alloc] init];
-            _textLabel.textAlignment = NSTextAlignmentRight;
-            _textLabel.font = [UIFont systemFontOfSize:14];
-            _textLabel.textColor = [UIColor colorWithRed:0.6157 green:0.6157 blue:0.6157 alpha:1.0];
-            [self addSubview:_textLabel];
-            
-            [self addObserver:self forKeyPath:@"textLabel.text" options:NSKeyValueObservingOptionNew context:EAAudioPlayerTextLabelContext];
-        }
+        [self createTextLabelIfNeed];
         
         CGFloat offset = 10;
         CGRect frame = CGRectMake(offset + self.styleConfig.contentInsets.left, offset + self.styleConfig.contentInsets.top, self.bounds.size.width - self.styleConfig.contentInsets.left - self.styleConfig.contentInsets.right - 2 * offset ,self.bounds.size.height - self.styleConfig.contentInsets.top - self.styleConfig.contentInsets.bottom - 2 * offset);
