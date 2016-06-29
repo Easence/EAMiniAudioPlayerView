@@ -74,7 +74,7 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     self.layer.borderColor = [UIColor colorWithRed:0.8784 green:0.8784 blue:0.8784 alpha:1.0].CGColor;
     self.layer.borderWidth = .5;
     self.layer.masksToBounds  = YES;
-
+    
     if(!self.downloadProgressLayer)
     {
         self.downloadProgressLayer = [CAShapeLayer layer];
@@ -165,8 +165,7 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     if(!self.playButtonContentView)
     {
         self.playButtonContentView = [[UIView alloc] init];
-        self.playButtonContentView.backgroundColor = self.styleConfig.playButtonBackgroundColor;
-        self.playButtonContentView.layer.borderColor = self.styleConfig.playButtonBorderColor.CGColor;
+        
         self.playButtonContentView.layer.borderWidth = .5;
         self.playButtonContentView.layer.masksToBounds = YES;
         
@@ -174,9 +173,7 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
         
         self.playProgressLayer = [CAShapeLayer layer];
         self.playProgressLayer.backgroundColor = [UIColor clearColor].CGColor;
-        self.playProgressLayer.lineWidth = self.styleConfig.playProgressWidth;
         self.playProgressLayer.fillColor = [UIColor clearColor].CGColor;
-        self.playProgressLayer.strokeColor = self.styleConfig.playProgressColor.CGColor;
         
         [self.playButtonContentView.layer addSublayer:self.playProgressLayer];
         
@@ -189,6 +186,13 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
         [_playButton setBackgroundImage:[UIImage imageNamed:@"btn_stop"] forState:UIControlStateSelected];
         [_playButton addTarget:self action:@selector(doplayAction:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    self.playButtonContentView.backgroundColor = self.styleConfig.playButtonBackgroundColor;
+    self.playButtonContentView.layer.borderColor = self.styleConfig.playButtonBorderColor.CGColor;
+    
+    self.playProgressLayer.lineWidth = self.styleConfig.playProgressWidth;
+    self.playProgressLayer.strokeColor = self.styleConfig.playProgressColor.CGColor;
+    
 }
 
 - (void)layoutPlayButton
@@ -250,7 +254,7 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
         _soundIcon = [[UIImageView alloc] init];
         _soundIcon.contentMode = UIViewContentModeScaleAspectFit;
         _soundIcon.clipsToBounds = YES;
-        _soundIcon.image = [UIImage imageNamed:@"icon_audio"];
+        
         [self addSubview:_soundIcon];
     }
     
@@ -268,11 +272,15 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     }
     else
     {
-     
+        
         [self createSoundIconIfNeed];
         
-        CGSize soundIconSize = [UIImage imageNamed:@"icon_audio"].size;
-
+        UIImage *image = self.styleConfig.soundIconName ? [UIImage imageNamed:self.styleConfig.soundIconName] : [UIImage imageNamed:@"icon_audio"];
+        
+        _soundIcon.image = image;
+        
+        CGSize soundIconSize = image.size;
+        
         CGFloat offset = 10;
         CGRect frame = CGRectMake(offset + self.styleConfig.contentInsets.left, self.styleConfig.contentInsets.top + (self.bounds.size.height - soundIconSize.height) / 2, soundIconSize.width ,soundIconSize.height);
         
@@ -340,17 +348,19 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
             }
         } else if(self.styleConfig.playerStyle & EAMiniPlayerHidePlayButton)
         {
-             if(_soundIcon)
-             {
-                 frame.origin.x = CGRectGetMaxX(_soundIcon.frame) + offset;
-                 frame.size.width = self.bounds.size.width - frame.origin.x - self.styleConfig.contentInsets.right;
-             }
+            if(_soundIcon)
+            {
+                frame.origin.x = CGRectGetMaxX(_soundIcon.frame) + offset;
+                frame.size.width = self.bounds.size.width - frame.origin.x - self.styleConfig.contentInsets.right;
+            }
             _textLabel.textAlignment = NSTextAlignmentLeft;
             
         }
         else
         {
-            CGSize soundIconSize = [UIImage imageNamed:@"icon_audio"].size;
+            UIImage *image = self.styleConfig.soundIconName ? [UIImage imageNamed:self.styleConfig.soundIconName] : [UIImage imageNamed:@"icon_audio"];
+            
+            CGSize soundIconSize = image.size;
             
             if(_soundIcon)
             {

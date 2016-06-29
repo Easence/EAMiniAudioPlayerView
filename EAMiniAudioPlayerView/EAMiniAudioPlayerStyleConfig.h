@@ -47,6 +47,9 @@ typedef NS_ENUM(NSUInteger, EAMiniPlayerStyle) {
 // download progress bar color
 @property (nonatomic, strong) UIColor *downloadProgressColor;
 
+// Image name of sound icon
+@property (nonatomic, strong) NSString *soundIconName;
+
 + (instancetype) defaultConfig;
 
 @end
