@@ -92,6 +92,7 @@ static NSInteger downloadProgress = 1;
     self.miniAudioPlayerView.playCompleted = ^{
         NSLog(@"miniAudioPlayerView play completed!");
         seconds = 0;
+        [weakSelf.miniAudioPlayerView.playButton setSelected:NO];
         weakSelf.miniAudioPlayerView.playProgress = 0;
         
         if(weakSelf.playTimer)
@@ -109,7 +110,6 @@ static NSInteger downloadProgress = 1;
     config2.playerStyle |= EAMiniPlayerHidePlayButton;
     self.miniAudioPlayerView2.styleConfig = config2;
     self.miniAudioPlayerView2.textLabel.text = @"record";
-    
 }
 
 - (void)didReceiveMemoryWarning {

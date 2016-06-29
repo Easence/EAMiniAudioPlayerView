@@ -13,8 +13,6 @@
 
 @property (nonatomic, assign) EAMiniPlayerStyle preStyle;
 
-@property (nonatomic, strong) UIImageView *soundIcon;
-
 //A UIView used to wrap play button and playProgressLayer
 @property (nonatomic , strong) UIView *playButtonContentView;
 //Used to draw playing progress
@@ -77,19 +75,22 @@ static void  *EAAudioPlayerTextLabelContext = &EAAudioPlayerTextLabelContext;
     self.layer.borderWidth = .5;
     self.layer.masksToBounds  = YES;
 
-    self.downloadProgressLayer = [CAShapeLayer layer];
-    self.downloadProgressLayer.backgroundColor = [UIColor clearColor].CGColor;
-    
-    [self.layer addSublayer:self.downloadProgressLayer];
-    
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touched:)];
-    recognizer.numberOfTapsRequired = 1;
-    
-    [self addGestureRecognizer:recognizer];
-    
-    [self createPlayButtonIfNeed];
-    [self createSoundIconIfNeed];
-    [self createTextLabelIfNeed];
+    if(!self.downloadProgressLayer)
+    {
+        self.downloadProgressLayer = [CAShapeLayer layer];
+        self.downloadProgressLayer.backgroundColor = [UIColor clearColor].CGColor;
+        
+        [self.layer addSublayer:self.downloadProgressLayer];
+        
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touched:)];
+        recognizer.numberOfTapsRequired = 1;
+        
+        [self addGestureRecognizer:recognizer];
+        
+        [self createPlayButtonIfNeed];
+        [self createSoundIconIfNeed];
+        [self createTextLabelIfNeed];
+    }
     
 }
 

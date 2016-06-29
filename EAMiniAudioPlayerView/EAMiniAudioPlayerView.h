@@ -18,6 +18,8 @@
 //After touched miniAudioPlayerView,this block will be call back
 @property (nonatomic, copy) void (^touchedPlayerView)(id sender);
 
+//wave icon
+@property (nonatomic, strong) UIImageView *soundIcon;
 //The label to display text
 @property (nonatomic, strong ,readonly) UILabel* textLabel;
 
